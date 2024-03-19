@@ -1,0 +1,33 @@
+name: object_pix
+description: "A new Flutter project."
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ">=3.3.1 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_hooks: ^0.20.5
+  lottie: ^3.0.0
+  flutter_svg: ^2.0.10+1
+  hooks_riverpod: ^2.4.10
+  flutter_riverpod: ^2.4.10
+  flutter_screenutil: ^5.9.0
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  flutter_animate: ^4.5.0
+  smooth_page_indicator: ^1.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  hive_generator: ^2.0.1
+  build_runner: ^2.4.8
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.3.4
+
+flutter:
+  uses-material-design: true
