@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'app_color.dart';
 
 class AppTheme {
-  static const _urbanist = 'Urbanist';
+  static const _urbanist = 'Montserrat';
   static TextStyle _createInterTextStyle({
     double fontSize = 14.0,
     FontWeight fontWeight = FontWeight.w400,

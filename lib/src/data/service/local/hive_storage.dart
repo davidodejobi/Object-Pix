@@ -5,8 +5,11 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../../../core/core.dart';
 
 class HiveService {
-  // Save the given value in the user box under the specified key.
-  final Box _userBox = Hive.box(AppConstants.user);
+  static final HiveService _instance = HiveService._internal();
+  factory HiveService() => _instance;
+  HiveService._internal() : _userBox = Hive.box(AppConstants.user);
+
+  final Box _userBox;
 
   void save(String key, dynamic value) {
     _userBox.put(key, value);

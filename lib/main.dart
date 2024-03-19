@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'src/core/core.dart';
+import 'src/feature/onboarding/view/onbaord_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,7 +34,7 @@ class ObjectPixApp extends StatelessWidget {
           title: 'Beam',
           debugShowCheckedModeBanner: false,
           theme: AppTheme.light(material3: false),
-          home: const WelcomeScreen(),
+          home: const OnboardScreen(),
           routes: const {},
         );
       },
