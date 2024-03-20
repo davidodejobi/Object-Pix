@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,6 +19,34 @@ class OnboardScreen extends HookWidget {
   Widget build(BuildContext context) {
     final pageController = usePageController();
     final currentIndex = useState(0);
+    //TODO: use this for animation later
+    final List<double> scrollPercentages = [
+      0.0,
+      0.0,
+      0.0
+    ]; // Assuming there are 3 pages
+
+    void handleScroll() {
+      for (int i = 0; i < scrollPercentages.length; i++) {
+        double pageOffset = i * MediaQuery.of(context).size.width;
+        double currentPageScroll = (pageController.offset - pageOffset) /
+            MediaQuery.of(context).size.width;
+        scrollPercentages[i] = currentPageScroll.clamp(0.0, 1.0);
+        log(': ${scrollPercentages[i]}');
+      }
+    }
+
+    final scrollPercentage = useState(0.0);
+
+    useEffect(() {
+      pageController.addListener(handleScroll);
+      return () {
+        pageController.removeListener(handleScroll);
+      };
+    }, [
+      pageController,
+    ]);
+
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -32,26 +62,23 @@ class OnboardScreen extends HookWidget {
                 return Column(
                   children: [
                     SizedBox(
-                      height: .5.sh,
+                      height: .45.sh,
                       width: double.infinity,
                       child: Column(
                         children: [
-                          20.hi,
                           20.hi,
                           LayoutBuilder(builder: (context, constraints) {
                             if (constraints.maxWidth > 600) {
                               return Image.asset(
                                 'onboard${data.image}'.png,
                                 height: .35.sh,
-                                width: .3.sw,
                                 fit: BoxFit.cover,
                               );
                             } else {
                               return Image.asset(
                                 'onboard${data.image}'.png,
                                 height: .35.sh,
-                                width: .8.sw,
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fill,
                               );
                             }
                           })
@@ -64,9 +91,11 @@ class OnboardScreen extends HookWidget {
                         children: [
                           Text(
                             data.title,
-                            style: context.headlineLarge,
+                            style: context.headlineLarge.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                          16.hi,
+                          32.hi,
                           Text(
                             data.description,
                             textAlign: TextAlign.center,
@@ -85,7 +114,7 @@ class OnboardScreen extends HookWidget {
               },
             ),
             Positioned(
-              bottom: .02.sh,
+              bottom: .018.sh,
               child: Container(
                 padding: const EdgeInsets.all(16.0),
                 width: MediaQuery.of(context).size.width,
@@ -96,15 +125,16 @@ class OnboardScreen extends HookWidget {
                       controller: pageController,
                       count: 3,
                       effect: SwapEffect(
-                        dotColor: AppColors.primaryColor.withOpacity(0.5),
+                        dotColor: AppColors.primaryColor.withOpacity(0.2),
                         activeDotColor: AppColors.primaryColor,
+                        radius: 3.0,
                         dotHeight: 10,
-                        dotWidth: 10,
+                        dotWidth: 12,
                         strokeWidth: 3,
                         spacing: 8.0,
                       ),
                     ),
-                    .05.sh.hi,
+                    .03.sh.hi,
                     ElevatedButton(
                       onPressed: currentIndex.value == 2
                           ? () {

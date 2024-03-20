@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'app_color.dart';
 
@@ -87,9 +88,10 @@ class AppTheme {
       style: ButtonStyle(
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
+            borderRadius: BorderRadius.circular(16),
           ),
         ),
+        minimumSize: MaterialStateProperty.all(Size(.5.sw, 50.h)),
         backgroundColor: MaterialStateProperty.all(backgroundColor),
         foregroundColor: MaterialStateProperty.all(foregroundColor),
         elevation: MaterialStateProperty.all(0),
