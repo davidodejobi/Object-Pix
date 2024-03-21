@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:object_pix/src/shared/utils/utils.dart';
 
+import '../../camera/view/camera.dart';
 import '../controller/home_controller.dart';
 import 'chip_widget.dart';
 
@@ -122,6 +123,7 @@ class ModelDisplayWidget extends HookConsumerWidget {
                           ChipWidget(
                             onTap: () {
                               homeController.selectCategory(e);
+                              context.push(const CameraScreen(), context);
                             },
                             text: e.name ?? '',
                             isSelected: e == homeController.selectedSubCategory,
