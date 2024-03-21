@@ -170,6 +170,19 @@ class AppTheme {
       textTheme: _createInterTextTheme(
         color: AppColors.primaryTextColor,
       ),
+      chipTheme: ChipThemeData(
+          backgroundColor: AppColors.primaryColor,
+          selectedColor: AppColors.primaryColor,
+          // secondarySelectedColor: AppColors.primaryColor,
+          labelStyle: _createInterTextStyle(
+            fontWeight: FontWeight.w400,
+            color: AppColors.whiteColor,
+          ),
+          checkmarkColor: AppColors.whiteColor,
+          secondaryLabelStyle: _createInterTextStyle(
+            fontWeight: FontWeight.w400,
+            color: AppColors.whiteColor,
+          )),
       outlinedButtonTheme:
           createOutlinedButtonThemeData(AppColors.primaryColor),
       elevatedButtonTheme: createElevatedButtonThemeData(
