@@ -9,8 +9,8 @@ import 'package:object_pix/src/shared/utils/utils.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../core/core.dart';
+import '../../../data/model/model.dart';
 import '../../home/view/home_screen.dart';
-import '../models/onboard.dart';
 
 class OnboardScreen extends HookWidget {
   const OnboardScreen({super.key});
@@ -36,7 +36,7 @@ class OnboardScreen extends HookWidget {
       }
     }
 
-    final scrollPercentage = useState(0.0);
+    // final scrollPercentage = useState(0.0);
 
     useEffect(() {
       pageController.addListener(handleScroll);
