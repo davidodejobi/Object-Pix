@@ -25,6 +25,13 @@ class HomeController with ChangeNotifier {
   ModelSubCategory _selectedSubCategory = ModelSubCategory();
   ModelSubCategory get selectedSubCategory => _selectedSubCategory;
 
+  bool _toggleSideDrawer = false;
+  bool get toggleSideDrawer => _toggleSideDrawer;
+  set toggleSideDrawer(bool value) {
+    _toggleSideDrawer = value;
+    notifyListeners();
+  }
+
   void selectCategory(ModelSubCategory category) {
     _selectedSubCategory = category;
     notifyListeners();

@@ -103,7 +103,7 @@ class ModelDisplayWidget extends HookConsumerWidget {
                             fontWeight: FontWeight.w500,
                             color: Colors.white,
                           ),
-                        ),
+                        ).padRight(8),
                       ],
                     ),
                   ),
