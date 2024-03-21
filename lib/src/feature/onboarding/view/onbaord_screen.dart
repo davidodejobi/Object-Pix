@@ -1,6 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,7 +30,7 @@ class OnboardScreen extends HookWidget {
         double currentPageScroll = (pageController.offset - pageOffset) /
             MediaQuery.of(context).size.width;
         scrollPercentages[i] = currentPageScroll.clamp(0.0, 1.0);
-        log(': ${scrollPercentages[i]}');
+        // log(': ${scrollPercentages[i]}');
       }
     }
 

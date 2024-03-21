@@ -1,25 +1,51 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/foundation.dart';
+
 import 'model_sub_category.dart';
 
 class ModelCategoryList {
-  final List<ModelCategory> modelCategories;
+  final List<ModelCategory>? modelCategories;
 
   ModelCategoryList({
-    required this.modelCategories,
+    this.modelCategories,
   });
 }
 
 class ModelCategory {
-  final String name;
-  final String image;
-  final List<ModelSubCategory> subCategories;
-  final String description;
-  final String abbreviatedName;
+  final String? name;
+  final String? image;
+  final List<ModelSubCategory>? subCategories;
+  final String? description;
+  final String? abbreviatedName;
+  final bool isSelected;
 
   ModelCategory({
-    required this.name,
-    required this.image,
-    required this.subCategories,
-    required this.description,
-    required this.abbreviatedName,
-  });
+    this.name,
+    this.image,
+    this.subCategories,
+    this.description,
+    this.abbreviatedName,
+  }) : isSelected = false;
+
+  @override
+  bool operator ==(covariant ModelCategory other) {
+    if (identical(this, other)) return true;
+
+    return other.name == name &&
+        other.image == image &&
+        listEquals(other.subCategories, subCategories) &&
+        other.description == description &&
+        other.abbreviatedName == abbreviatedName &&
+        other.isSelected == isSelected;
+  }
+
+  @override
+  int get hashCode {
+    return name.hashCode ^
+        image.hashCode ^
+        subCategories.hashCode ^
+        description.hashCode ^
+        abbreviatedName.hashCode ^
+        isSelected.hashCode;
+  }
 }
