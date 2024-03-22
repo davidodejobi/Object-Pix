@@ -18,6 +18,14 @@ dependencies:
   hive_flutter: ^1.1.0
   flutter_animate: ^4.5.0
   smooth_page_indicator: ^1.1.0
+  tflite_flutter: ^0.10.1
+  camera: ^0.10.5+2
+  image: ^4.0.17
+  path_provider: ^2.0.15
+  image_picker: ^1.0.0
+  exif: ^3.1.4
+  permission_handler: ^11.3.0
+  flutter_file_dialog: ^3.0.2
 
 dev_dependencies:
   flutter_test:
@@ -36,6 +44,7 @@ flutter:
     - assets/svgs/
     - assets/animations/
     - assets/fonts/
+    - assets/models/
 
   fonts:
     - family: Montserrat

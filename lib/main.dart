@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'src/core/core.dart';
 import 'src/feature/onboarding/view/onbaord_screen.dart';
@@ -31,7 +31,7 @@ class ObjectPixApp extends StatelessWidget {
       ensureScreenSize: true,
       builder: (context, child) {
         return MaterialApp(
-          title: 'Beam',
+          title: 'Object Pix',
           debugShowCheckedModeBanner: false,
           theme: AppTheme.light(material3: false),
           home: const OnboardScreen(),
