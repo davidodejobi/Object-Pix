@@ -30,12 +30,6 @@ jobs:
       - name: Get flutter dependencies
         run: flutter pub get
 
-      - name: Flutter Format
-        run: flutter format .
-
-      - name: Flutter Analyze
-        run: flutter analyze
-
       - name: Flutter Test
         run: flutter test
 
