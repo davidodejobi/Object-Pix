@@ -1,9 +1,11 @@
 import 'dart:io';
-import 'dart:typed_data';
+import 'dart:math';
 
 import 'package:camera/camera.dart';
 import 'package:exif/exif.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_file_dialog/flutter_file_dialog.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image/image.dart' as image_lib;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -179,44 +181,11 @@ image_lib.Image applyExifRotation(image_lib.Image image, int exifRotation) {
 // ) async {
 //   Uint8List bytes = image_lib.encodeJpg(image);
 
-//   // Get the temporary directory for the app
-//   Directory tempDir = await getTemporaryDirectory();
-//   String tempPath = tempDir.path;
-
-//   // Create a directory named 'images' in the temporary directory
-//   String directoryPath = '$tempPath/images';
-//   Directory directory = Directory(directoryPath);
-//   if (!await directory.exists()) {
-//     await directory.create(recursive: true);
-//   }
-
-//   // Create the file path
-//   String filePath = '$directoryPath/$name.jpg';
-
-//   // Write the bytes to the file
-//   File fileOnDevice = File(filePath);
-//   await fileOnDevice.writeAsBytes(bytes, flush: true);
-
-//   // Check if the file exists after saving
-//   bool exists = await fileOnDevice.exists();
-//   if (exists) {
-//     log('Image saved successfully at: $filePath');
-//   } else {
-//     log('Failed to save image!');
-//   }
-// }
-
-// Future<void> saveImage(
-//   image_lib.Image image,
-//   String name,
-// ) async {
-//   Uint8List bytes = image_lib.encodeJpg(image);
-
 //   // Request permission to write to external storage
 //   if (!Platform.isIOS) {
 //     var status = await Permission.storage.request();
 //     if (status != PermissionStatus.granted) {
-//       log('Permission denied');
+//       debugPrint('Permission denied');
 //       return;
 //     }
 //   }
@@ -224,7 +193,7 @@ image_lib.Image applyExifRotation(image_lib.Image image, int exifRotation) {
 //   // Get the external storage directory
 //   Directory? externalDir = await getExternalStorageDirectory();
 //   if (externalDir == null) {
-//     log('External storage directory not available');
+//     debugPrint('External storage directory not available');
 //     return;
 //   }
 
@@ -245,23 +214,34 @@ image_lib.Image applyExifRotation(image_lib.Image image, int exifRotation) {
 //   // Check if the file exists after saving
 //   bool exists = await fileOnDevice.exists();
 //   if (exists) {
-//     log('Image saved successfully at: $filePath');
+//     debugPrint('Image saved successfully at: $filePath');
+
+//     // Use Flutter File Dialog to show a file save dialog
+//     try {
+//       final params = SaveFileDialogParams(sourceFilePath: fileOnDevice.path);
+//       final finalPath = await FlutterFileDialog.saveFile(params: params);
+//       if (finalPath != null) {
+//         debugPrint('File saved at: $finalPath');
+//       } else {
+//         debugPrint('File save cancelled');
+//       }
+//     } catch (e) {
+//       debugPrint('Error saving file: $e');
+//     }
 //   } else {
-//     log('Failed to save image!');
+//     debugPrint('Failed to save image!');
 //   }
 // }
 
-Future<void> saveImage(
-  image_lib.Image image,
-  String name,
-) async {
-  Uint8List bytes = image_lib.encodeJpg(image);
+Future<void> saveImage(XFile capturedImage, String name) async {
+  // Read the captured image file
+  File capturedFile = File(capturedImage.path);
 
   // Request permission to write to external storage
   if (!Platform.isIOS) {
     var status = await Permission.storage.request();
     if (status != PermissionStatus.granted) {
-      print('Permission denied');
+      debugPrint('Permission denied');
       return;
     }
   }
@@ -269,7 +249,7 @@ Future<void> saveImage(
   // Get the external storage directory
   Directory? externalDir = await getExternalStorageDirectory();
   if (externalDir == null) {
-    print('External storage directory not available');
+    debugPrint('External storage directory not available');
     return;
   }
 
@@ -283,28 +263,41 @@ Future<void> saveImage(
   // Create the file path
   String filePath = '$directoryPath/$name.jpg';
 
-  // Write the bytes to the file
-  File fileOnDevice = File(filePath);
-  await fileOnDevice.writeAsBytes(bytes, flush: true);
+  // Copy the captured image file to the desired location
+  await capturedFile.copy(filePath);
 
   // Check if the file exists after saving
-  bool exists = await fileOnDevice.exists();
+  bool exists = File(filePath).existsSync();
   if (exists) {
-    print('Image saved successfully at: $filePath');
+    debugPrint('Image saved successfully at: $filePath');
 
     // Use Flutter File Dialog to show a file save dialog
     try {
-      final params = SaveFileDialogParams(sourceFilePath: fileOnDevice.path);
+      final params = SaveFileDialogParams(sourceFilePath: filePath);
       final finalPath = await FlutterFileDialog.saveFile(params: params);
       if (finalPath != null) {
-        print('File saved at: $finalPath');
+        debugPrint('File saved at: $finalPath');
       } else {
-        print('File save cancelled');
+        debugPrint('File save cancelled');
       }
     } catch (e) {
-      print('Error saving file: $e');
+      debugPrint('Error saving file: $e');
     }
   } else {
-    print('Failed to save image!');
+    debugPrint('Failed to save image!');
   }
+}
+
+double calculateZoomLevel(double left) {
+  final screenWidth = 1.sw;
+  // Calculate the distance of the image from the center of the screen
+  double distanceFromCenter = (left - screenWidth / 2).abs();
+
+  // Normalize the distance to a value between 0 and 1
+  double normalizedDistance = min(distanceFromCenter / (screenWidth / 2), 1.0);
+
+  // Scale the normalized distance to the desired zoom range (e.g., 0.5 to 2.0)
+  double zoomLevel = 0.5 + (normalizedDistance * 1.5);
+
+  return zoomLevel;
 }

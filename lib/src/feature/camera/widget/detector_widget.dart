@@ -1,16 +1,20 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:isolate';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:object_pix/src/shared/utils/image_utils.dart';
+import 'package:object_pix/src/shared/utils/utils.dart';
 
 import '../../../data/model/camera/recognition.dart';
 import '../../../data/model/camera/screen_params.dart';
+import '../../home/controller/home_controller.dart';
 import '../service/detector_service.dart';
 import 'box_widget.dart';
-import 'stats_widget.dart';
+
 // class DetectorWidget extends StatefulHookConsumerWidget {
 //   const DetectorWidget({super.key});
 
@@ -55,6 +59,9 @@ class _DetectorWidgetState extends ConsumerState<DetectorWidget>
 
   /// Realtime stats
   Map<String, String>? stats;
+
+  ///image found boolean
+  bool _imageFound = false;
 
   @override
   void initState() {
@@ -116,9 +123,6 @@ class _DetectorWidgetState extends ConsumerState<DetectorWidget>
             _controller,
           ),
         ),
-        // Stats
-        // _statsWidget(),
-        // Bounding boxes
         AspectRatio(
           aspectRatio: aspect,
           child: _boundingBoxes(),
@@ -127,42 +131,57 @@ class _DetectorWidgetState extends ConsumerState<DetectorWidget>
     );
   }
 
-  Widget _statsWidget() => (stats != null)
-      ? Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            color: Colors.white.withAlpha(150),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: stats!.entries
-                    .map((e) => StatsWidget(e.key, e.value))
-                    .toList(),
-              ),
-            ),
-          ),
-        )
-      : const SizedBox.shrink();
+  Future<XFile?> _captureImage() async {
+    try {
+      // Capture the image
+      XFile? capturedImage;
+      if (_cameraController != null) {
+        capturedImage = await _cameraController!.takePicture();
+      }
+
+      // Check if image capture was successful
+      return capturedImage;
+    } catch (e) {
+      log('Error capturing image: $e');
+    }
+
+    return null; // Return null if image capture fails
+  }
 
   /// Returns Stack of bounding boxes
   Widget _boundingBoxes() {
+    setState(() {
+      _imageFound = false;
+    });
     if (results == null) {
       return const SizedBox.shrink();
     }
 
+    String objectName = ref.watch(homeProvider).selectedSubCategory.name ?? '-';
+
     Recognition? actualResult;
 
     for (var result in results!) {
-      if (result.label == 'laptop') {
+      if (result.label == ref.watch(homeProvider).selectedSubCategory.name) {
         actualResult = result;
         if (_cameraController != null) {
-          _cameraController!.setFlashMode(FlashMode.torch);
-          _cameraController!.setZoomLevel(2.0);
-          saveImage(
-            result.image,
-            'Testing',
-          );
+          _cameraController!.setFocusMode(FocusMode.auto);
+          //check the location (Rect) of the image compared to the phone screen size. If it's big enough, don't zoom but if it's far zoom
+          _cameraController!
+              .setZoomLevel(calculateZoomLevel(result.renderLocation.left / 2));
+          setState(() {
+            _imageFound = true;
+          });
+          Future.delayed(const Duration(milliseconds: 2000), () {
+            _captureImage().then((value) {
+              if (value != null) {
+                saveImage(
+                  value,
+                  objectName + DateTime.now().toIso8601String(),
+                );
+              }
+            });
+          });
         }
       }
     }
@@ -171,6 +190,10 @@ class _DetectorWidgetState extends ConsumerState<DetectorWidget>
         : Stack(
             children: [
               BoxWidget(result: actualResult),
+              if (_imageFound)
+                Lottie.asset(
+                  'countdown'.json,
+                )
             ],
           );
   }

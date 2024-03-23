@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_hooks: ^0.20.5
-  lottie: ^3.0.0
+  lottie: ^3.1.0
   flutter_svg: ^2.0.10+1
   hooks_riverpod: ^2.4.10
   flutter_screenutil: ^5.9.0
