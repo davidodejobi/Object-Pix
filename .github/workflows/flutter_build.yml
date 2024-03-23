@@ -7,25 +7,24 @@ on:
 
 jobs:
   build:
-    name: Test, Build, and Release apk
+    name: Test, Build, and Release new apk
     runs-on: ubuntu-latest
 
-    env:
-      NODE_VERSION: "20.x"
-
     steps:
-      - name: Use Node.js version ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v2
+      - name: Use Java 11 for build
+        uses: actions/setup-java@v2
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          distribution: "zulu"
+          java-version: "11"
 
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.19.3"
+          channel: "stable"
 
       - name: Get flutter dependencies
         run: flutter pub get
@@ -39,7 +38,25 @@ jobs:
       - name: Rename APK
         run: mv build/app/outputs/apk/release/app-release.apk build/app/outputs/apk/release/ObjectPix.apk
 
-      - uses: actions/upload-artifact@v2
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-          name: release-apk
-          path: build/app/outputs/apk/release/ObjectPix.apk
+          tag_name: v${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
+          body: |
+            Automatically generated release for build ${{ github.run_number }}
+
+      - name: Upload APK
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/app/outputs/flutter-apk/app-release.apk
+          asset_name: app-release.apk
+          asset_content_type: application/vnd.android.package-archive
