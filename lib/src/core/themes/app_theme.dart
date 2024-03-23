@@ -26,30 +26,30 @@ class AppTheme {
   }) {
     return TextTheme(
       displayLarge: _createInterTextStyle(
-        fontSize: 42.0,
+        fontSize: 42.0.sp,
         fontWeight: FontWeight.w500,
         color: color,
       ),
       displayMedium: _createInterTextStyle(
-          fontSize: 32.0, fontWeight: FontWeight.w600, color: color),
+          fontSize: 32.0.sp, fontWeight: FontWeight.w600, color: color),
       displaySmall: _createInterTextStyle(
-          fontSize: 28.0, fontWeight: FontWeight.w500, color: color),
+          fontSize: 28.0.sp, fontWeight: FontWeight.w500, color: color),
       headlineLarge: _createInterTextStyle(
-          fontSize: 24.0, fontWeight: FontWeight.w500, color: color),
+          fontSize: 24.0.sp, fontWeight: FontWeight.w500, color: color),
       headlineMedium: _createInterTextStyle(
-          fontSize: 22.0, fontWeight: FontWeight.w400, color: color),
+          fontSize: 22.0.sp, fontWeight: FontWeight.w400, color: color),
       headlineSmall: _createInterTextStyle(
-          fontSize: 20.0, fontWeight: FontWeight.w500, color: color),
+          fontSize: 20.0.sp, fontWeight: FontWeight.w500, color: color),
       titleLarge: _createInterTextStyle(
-          fontSize: 18.0, fontWeight: FontWeight.w500, color: color),
+          fontSize: 18.0.sp, fontWeight: FontWeight.w500, color: color),
       titleMedium: _createInterTextStyle(
-          fontSize: 16.0, fontWeight: FontWeight.w500, color: color),
+          fontSize: 16.0.sp, fontWeight: FontWeight.w500, color: color),
       bodyLarge: _createInterTextStyle(
-          fontSize: 20.0, fontWeight: FontWeight.w400, color: color),
+          fontSize: 20.0.sp, fontWeight: FontWeight.w400, color: color),
       bodyMedium: _createInterTextStyle(
-          fontSize: 18.0, fontWeight: FontWeight.w400, color: color),
+          fontSize: 18.0.sp, fontWeight: FontWeight.w400, color: color),
       bodySmall: _createInterTextStyle(
-          fontSize: 16.0, fontWeight: FontWeight.w400, color: color),
+          fontSize: 16.0.sp, fontWeight: FontWeight.w400, color: color),
       labelLarge: _createInterTextStyle(
         fontSize: 14.0,
         fontWeight: FontWeight.w400,
@@ -57,13 +57,13 @@ class AppTheme {
         letterSpacing: 0.2,
       ),
       labelMedium: _createInterTextStyle(
-        fontSize: 12.0,
+        fontSize: 12.0.sp,
         fontWeight: FontWeight.w400,
         color: color,
         letterSpacing: 0.2,
       ),
       labelSmall: _createInterTextStyle(
-        fontSize: 10.0,
+        fontSize: 10.0.sp,
         fontWeight: FontWeight.w400,
         color: color,
         letterSpacing: 0.2,

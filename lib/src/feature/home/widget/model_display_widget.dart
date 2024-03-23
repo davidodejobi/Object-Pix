@@ -100,6 +100,8 @@ class ModelDisplayWidget extends HookConsumerWidget {
                         12.hi,
                         Text(
                           homeController.selectedCategory.description ?? '',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 5,
                           style: context.labelMedium.copyWith(
                             fontWeight: FontWeight.w500,
                             color: Colors.white,
@@ -132,7 +134,8 @@ class ModelDisplayWidget extends HookConsumerWidget {
                       ),
                     ),
                   ],
-                )
+                ),
+                16.hi,
               ],
             ),
           ),

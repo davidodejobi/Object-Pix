@@ -89,6 +89,7 @@ class OnboardScreen extends HookWidget {
                         children: [
                           Text(
                             data.title,
+                            textAlign: TextAlign.center,
                             style: context.headlineLarge.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
