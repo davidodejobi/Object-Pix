@@ -39,8 +39,7 @@ jobs:
         run: |
           mv build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk build/app/outputs/flutter-apk/ObjectPix-armeabi-v7a.apk
           mv build/app/outputs/flutter-apk/app-arm64-v8a-release.apk build/app/outputs/flutter-apk/ObjectPix-arm64-v8a.apk
-          mv build/app/outputs/flutter-apk/app-x86-release.apk build/app/outputs/flutter-apk/ObjectPix-x86.apk
-          mv build/app/outputs/flutter-apk/app-x64-release.apk build/app/outputs/flutter-apk/ObjectPix-x64.apk
+          mv build/app/outputs/flutter-apk/app-x86_64-release.apk build/app/outputs/flutter-apk/ObjectPix-x86_64.apk
 
       - name: Push to Releases
         uses: ncipollo/release-action@v1
