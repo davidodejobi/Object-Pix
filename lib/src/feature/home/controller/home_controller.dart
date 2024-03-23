@@ -2,7 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../core/constants/model_hardcode_data.dart';
+import '../../../core/core.dart';
 import '../../../data/model/model.dart';
+import '../../../data/service/local/hive_storage.dart';
 
 final homeProvider =
     ChangeNotifierProvider<HomeController>((ref) => HomeController());
@@ -31,6 +33,8 @@ class HomeController with ChangeNotifier {
     _toggleSideDrawer = value;
     notifyListeners();
   }
+
+  bool get hasBeenOnboarded => HiveService().get(AppConstants.onboard) ?? false;
 
   void selectCategory(ModelSubCategory category) {
     _selectedSubCategory = category;

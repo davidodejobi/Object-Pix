@@ -3,8 +3,10 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:object_pix/src/feature/home/view/home_screen.dart';
 
 import 'src/core/core.dart';
+import 'src/feature/home/controller/home_controller.dart';
 import 'src/feature/onboarding/view/onbaord_screen.dart';
 
 Future<void> main() async {
@@ -34,7 +36,11 @@ class ObjectPixApp extends StatelessWidget {
           title: 'Object Pix',
           debugShowCheckedModeBanner: false,
           theme: AppTheme.light(material3: false),
-          home: const OnboardScreen(),
+          home: Consumer(
+            builder: (_, ref, __) => ref.watch(homeProvider).hasBeenOnboarded
+                ? const HomeScreen()
+                : const OnboardScreen(),
+          ),
           routes: const {},
         );
       },
