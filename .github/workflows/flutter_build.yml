@@ -1,0 +1,47 @@
+name: Flutter Text, Build, and Release
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Test, Build, and Release apk
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.19.3"
+
+      - name: Get flutter dependencies
+        run: flutter pub get
+
+      - name: Flutter Format
+        run: flutter format .
+
+      - name: Flutter Analyze
+        run: flutter analyze
+
+      - name: Flutter Test
+        run: flutter test
+
+      - name: Build Android APK
+        run: flutter build apk --release
+
+      - name: Rename APK
+        run: mv build/app/outputs/apk/release/app-release.apk build/app/outputs/apk/release/ObjectPix.apk
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: release-apk
+          path: build/app/outputs/apk/release/ObjectPix.apk
