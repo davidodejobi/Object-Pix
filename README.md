@@ -1,3 +1,5 @@
 # object_pix
 
-A new Flutter project.
+## Quick Demo
+
+[Android](ss/object pix demo.mp4)
